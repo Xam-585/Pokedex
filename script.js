@@ -1,7 +1,7 @@
 const BASE_URL = "https://pokeapi.co/api/v2/pokemon/";
 let Url = "";
 let offset = "0";
-const DataLimit = "10";
+const DataLimit = "28";
 const PokeKey = ["name", "order", "ability", "forms", "height", "weight", "types"]
 //const PokeKeyMore = ["types", "spirits"];
 let myData = [];
@@ -67,8 +67,6 @@ function getStringFirstLetterUp(string) {
     return String;
 }
 
-
-
 function generateTyps(i) {
     let temp = "";
     for (a in myPokemons[i].types) {
@@ -80,12 +78,12 @@ function generateTyps(i) {
 
 function templatePokeCard(img, pokedexNumber ,name, i){
     return`
-            <div id="Poke-Card${pokedexNumber}" class="Poke-Card ${myPokemons[i].types[0].type.name}">
+            <div id="Poke-Card${pokedexNumber}" class="Poke-Card ${myPokemons[i].types[0].type.name}" >
                 <div class="Poke-Card-Name">
                     <div>${name}</div>
                     <div>Nr. ${pokedexNumber}</div>
                 </div>
-                <div id="pokemonPic"><img src="${img}"></div>
+                <button class="pokemonPic ${myPokemons[i].types[0].type.name}"><img src="${img}"></button onclick="">
                 <div class="type-container">${generateTyps(i)}</div>
             </div>
          `
@@ -93,6 +91,6 @@ function templatePokeCard(img, pokedexNumber ,name, i){
 
 function templateType(i, a, type) {
     return`
-           <div class="type ${myPokemons[i].types[a].type.name}">${getStringFirstLetterUp(type)}</div>
+           <button onclick="" class="type ${myPokemons[i].types[a].type.name}">${getStringFirstLetterUp(type)}</button>
          `
 }

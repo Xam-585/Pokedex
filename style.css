@@ -1,10 +1,39 @@
-main {
-    display: flex;
-    justify-content: center;
+html {
+    background-image: url(../assets/img/background.jpg);
+    background-repeat: no-repeat;
+    background-size: cover;
 }
 
+main {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+    height: calc(100vh - 250px);
+}
 
+header {
+    height: 125px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: blue;
+    opacity: 0.4;
+}
 
+body {
+    margin: 0;
+    padding: 0;
+}
+
+footer {
+    height: 125px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: blue;
+    opacity: 0.4;
+}
 
 section {
     max-width: 1440px;
@@ -23,9 +52,12 @@ section {
     display: flex;
     flex-direction: column;
     width: 150px;
+    height: 200px;
     align-items: center;
     border-radius: 8px;
     padding: 8px;
+    gap: 14px;
+    border: none;
 }
 
 .Poke-Card-Name {
@@ -46,3 +78,17 @@ section {
     color: rgb(0, 0, 0);
 }
 
+.title {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.Page-control {
+    margin-top: 40px;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
