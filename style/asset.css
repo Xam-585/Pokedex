@@ -1,0 +1,26 @@
+
+
+
+/*Buttons*/
+
+button {
+    cursor: pointer;
+
+}
+
+button :hover {
+    background-color: azure;
+}
+
+.btn {
+    color: red;
+}
+
+/* a-tags */
+
+a {
+    cursor: pointer;
+}
+a :hover{
+    color: red;
+}
