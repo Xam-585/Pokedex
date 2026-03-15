@@ -1,0 +1,48 @@
+main {
+    display: flex;
+    justify-content: center;
+}
+
+
+
+
+section {
+    max-width: 1440px;
+    display: flex;
+    justify-content: center;
+}
+
+.content {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 24px;
+}
+
+.Poke-Card{
+    display: flex;
+    flex-direction: column;
+    width: 150px;
+    align-items: center;
+    border-radius: 8px;
+    padding: 8px;
+}
+
+.Poke-Card-Name {
+    display: flex;
+    flex-direction: column;
+}
+
+.type-container {
+    display: flex;
+    gap: 16px;
+}
+
+.type {
+    filter: brightness(130%);
+    border-radius: 4px;
+    padding: 4px;
+    text-align: center;
+    color: rgb(0, 0, 0);
+}
+

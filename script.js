@@ -1,7 +1,7 @@
 const BASE_URL = "https://pokeapi.co/api/v2/pokemon/";
 let Url = "";
 let offset = "0";
-const DataLimit = "15";
+const DataLimit = "10";
 const PokeKey = ["name", "order", "ability", "forms", "height", "weight", "types"]
 //const PokeKeyMore = ["types", "spirits"];
 let myData = [];
@@ -52,30 +52,47 @@ function getPokemonData(i, key, key2) {
 }
 
 function test() {
-    let temp = document.getElementById('div');
+    let temp = document.getElementById('content');
     for (i in myPokemons) {
     let img = myPokemons[i].sprites.front_default;
-    let name = myPokemons[i].name;
+    let name = getStringFirstLetterUp(myPokemons[i].name);
     let pokedexNumber = myPokemons[i].id;
-    let tempType = "";
-    for (a in myPokemons[i].types) {
-        tempType += templateType(Number(a) +1, myPokemons[i].types[a].type.name);
-    }
-    temp.innerHTML += template(img, pokedexNumber,name) + tempType;
+    temp.innerHTML += templatePokeCard(img, pokedexNumber,name, i)
+        console.log(myPokemons[i].types[0].type.name);
     }
 }
 
+function getStringFirstLetterUp(string) {
+    let String = string.substring(0, 1).toUpperCase() + string.substring(1);
+    return String;
+}
 
-function template(img, pokedexNumber ,name) {
+
+
+function generateTyps(i) {
+    let temp = "";
+    for (a in myPokemons[i].types) {
+        temp += templateType(i, a, myPokemons[i].types[a].type.name);
+    }
+    return temp;
+    }
+
+
+function templatePokeCard(img, pokedexNumber ,name, i){
     return`
-            <div id="pokemonPic"><img src="${img}"></div>
-            <div>Nr. ${pokedexNumber}</div>
-            <div>${name}</div>
+            <div id="Poke-Card${pokedexNumber}" class="Poke-Card ${myPokemons[i].types[0].type.name}">
+                <div class="Poke-Card-Name">
+                    <div>${name}</div>
+                    <div>Nr. ${pokedexNumber}</div>
+                </div>
+                <div id="pokemonPic"><img src="${img}"></div>
+                <div class="type-container">${generateTyps(i)}</div>
+            </div>
          `
 }
 
-function templateType(i, type) {
+function templateType(i, a, type) {
     return`
-           <div>Type${i}: ${type}</div>
+           <div class="type ${myPokemons[i].types[a].type.name}">${getStringFirstLetterUp(type)}</div>
          `
 }
