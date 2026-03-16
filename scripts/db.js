@@ -1,4 +1,4 @@
-let myDishes = [
+let Pokemon = [
     {
         "name": "", 
         "price": 2, 
