@@ -11,13 +11,7 @@ let SearchList = [];
 // load
 function loadData() {
     checkLocalSorage();
-    test();
-    loadPageControl();
 }
-
-
-
-
 
 // push necessary data from api 
 
@@ -69,7 +63,9 @@ async function loadAPI() {
     }
     loopPushData(offset, DataLimit);
     await loadPagePokemonData();
+    generateContent();
     localStorageSafe();
+    closeLoadingScreen();
 }
 
 function loopPushData(start, end) {
@@ -99,6 +95,7 @@ function checkLocalSorage() {
         getLocalData(localdata, localpokemon, localPage, localMaxPage, localsearchList);
     }
     else {
+        startLoadingScreen();
         loadAPI();
     }
 }
@@ -109,6 +106,7 @@ function getLocalData(localdata, localpokemon, localPage, localMaxPage, localsea
     Page = localPage;
     MaxPage = localMaxPage;
     SearchList = localsearchList;
+    generateContent();
 }
 
 function localStorageSafe() {
@@ -116,7 +114,7 @@ function localStorageSafe() {
     saveToLocalStorage("myPokemons", JSON.stringify(myPokemons));
     saveToLocalStorage("Page", Page);
     saveToLocalStorage("MaxPage", MaxPage);
-    saveToLocalStorage("SearchList", SearchList);
+    saveToLocalStorage("SearchList", JSON.stringify(SearchList));
 }
 
 function saveToLocalStorage(key, object) {
@@ -133,15 +131,15 @@ function generateURL(Off, Limit) {
     Url = BASE_URL + "?offset=" + Off + "&limit=" + Limit;
 }
 
-function test() {
+function generateContent() {
     let temp = document.getElementById('content');
     for (i in myPokemons) {
     let img = myPokemons[i].sprites.front_default;
     let name = getStringFirstLetterUp(myPokemons[i].name);
     let pokedexNumber = myPokemons[i].id;
     temp.innerHTML += templatePokeCard(img, pokedexNumber,name, i)
-        console.log(myPokemons[i].types[0].type.name);
     }
+    loadPageControl();
 }
 
 // Page Control
@@ -174,3 +172,42 @@ function generateTyps(i) {
     }
     return temp;
     }
+
+
+
+    // Dialog
+
+    function startLoadingScreen() {
+        let dialogRef = openDialog();
+        dialogRef.innerHTML = loadingScreen();
+    }
+
+    function closeLoadingScreen() {
+     closeDialog();    
+    }
+
+    function openDialog() { 
+        let dialogRef = document.getElementById('dialog');
+        dialogRef.showModal();
+        dialogRef.classList.add('open');
+        document.body.classList.add('no-scroll');
+        return dialogRef;
+    }
+
+
+    function closeDialog() { 
+        const dialogRef = document.getElementById('dialog');
+        dialogRef.innerHTML = "";
+        dialogRef.close();
+        dialogRef.classList.remove('open');
+        document.body.classList.remove('no-scroll');
+    }
+        /*
+        if (id === document.getElementById('dialog')) {
+        id.classList.add('dialog-background');
+            setTimeout(() => {
+                closeDialog('dialog');
+            }, 3500);
+        }
+    }
+*/

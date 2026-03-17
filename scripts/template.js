@@ -27,3 +27,12 @@ function templatePageControl(page, maxPage) {
             <button class="page_button" onclick="getNextPageForward()">></button>
         `
 }
+
+function loadingScreen() {
+    return `
+    <div class="load">
+        <div class="loading-screen"></div>
+        <div class="loading-text">Loading</div>
+    </div>
+    `
+}

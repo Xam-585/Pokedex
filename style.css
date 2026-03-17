@@ -92,3 +92,64 @@ section {
     justify-content: center;
     align-items: center;
 }
+
+dialog {
+    background-color: transparent;
+    border: none;
+    position: fixed;
+    height: 100%;
+    width: 100%;
+}
+
+.open {
+    display: flex;
+    justify-content: center;
+    align-items: center;   
+    z-index: 1;
+}
+
+.load{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.loading-screen {
+    background-image: url("../assets/img/poke.png");
+    height: 500px;
+    width: 500px;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    animation: myspin 1.5s infinite;
+}
+
+.loading-text {
+    font-size: 48px;
+    animation: fade 1.5s infinite;
+}
+
+.loading-text::after {
+    content: '';
+    animation: dots 5s infinite;
+}
+
+@keyframes myspin {
+    100% {transform: rotate(360deg);}
+}
+
+@keyframes fade {
+    0% { opacity: 1; }
+    50% { opacity: 0.5; }
+    100% { opacity: 1; }
+}
+
+@keyframes dots {
+    0% { content: ''; }
+    20% { content: '.'; }
+    40% { content: '..'; }
+    60% { content: '...'; }
+    80% { content: '..'; }
+    100% { content: '.'; }
+}
