@@ -7,19 +7,62 @@ let Page = 1;
 let MaxPage = 0;
 let myPokemons = [];
 let SearchList = [];
+let CurrentSearchList = [];
 
 // load
 function loadData() {
     checkLocalSorage();
 }
 
-// push necessary data from api 
+//API
+
+async function loadAPI() {
+    generateURL(offset, 2000);
+    let userResponse = await loadDataApi(Url);
+    getMaxPage(userResponse.count);
+    let UserKeysArray = userResponse.results;
+    SearchList = [];
+    for (let i = 0; i < UserKeysArray.length; i++) {
+        pushInSearch(UserKeysArray[i], SearchList)
+    }
+    await loadPagePokemonData(SearchList);
+    generateContent();
+}
+
+async function loadDataApi(path) {
+    let response = await fetch(path);
+    return await response.json();
+}
+
+async function loadPagePokemonData(list) {
+    myPokemons = [];
+    let promises = [];
+    for (let i = offset; i < offset + DataLimit && i < list.length; i++) {
+        promises.push(loadDataApi(list[i].url));
+    }
+    let result = await Promise.all(promises);
+    console.log(result);
+    for (let i = 0; i < result.length; i++) {
+        pushInMyPokemons(result[i]);
+    }
+} 
+
+function generateURL(Off, Limit) {
+    return Url = BASE_URL + "?offset=" + Off + "&limit=" + Limit;
+}
+
+//API Data 
 
 function pushInSearch(para, object) {
     object.push({
         name: para.name,
         url: para.url,
     });
+}
+
+function getMaxPage(count) {
+    MaxNumberPokemon = count;
+    MaxPage = Math.ceil(MaxNumberPokemon / DataLimit);
 }
 
 function pushInMyPokemons(para) {
@@ -35,52 +78,6 @@ function pushInMyPokemons(para) {
     });
 }
 
-//API
-async function loadDataApi(path) {
-    let response = await fetch(path);
-    return await response.json();
-}
-
-async function loadPagePokemonData() {
-    myPokemons = [];
-
-    for (let i = offset; i < offset + DataLimit && i < SearchList.length; i++) {
-        let userResponse = await loadDataApi(SearchList[i].url);
-        pushInMyPokemons(userResponse);
-    }
-} 
-
-async function loadAPI() {
-    generateURL(offset, 2000);
-    let userResponse = await loadDataApi(Url);
-    
-    getMaxPage(userResponse.count);
-
-    let UserKeysArray = userResponse.results;
-    SearchList = [];
-    for (i in UserKeysArray) {
-        pushInSearch(UserKeysArray[i], SearchList)
-    }
-    await loadPagePokemonData();
-    generateContent();
-    localStorageSafe();
-    closeLoadingScreen();
-}
-
-function getMaxPage(count) {
-    MaxNumberPokemon = count;
-    MaxPage = Math.ceil(MaxNumberPokemon / DataLimit);
-}
-
-//Content 
-
-function PokemonView(i) {
-    let dialogRef = openDialog();
-    dialogRef.innerHTML = templatePokemonDetailCard(i);
-}
-
-
-    
 // localStorage
 
 function checkLocalSorage() {
@@ -104,7 +101,7 @@ function getLocalData(localMaxNumberPokemon, localpokemon, localPage, localMaxPa
     Page = localPage;
     MaxPage = localMaxPage;
     SearchList = localsearchList;
-    generateContent();
+    renderContent();
 }
 
 function localStorageSafe() {
@@ -123,21 +120,31 @@ function getFromLocalStorage(key) {
     return JSON.parse(localStorage.getItem(key));
 }
 
-function generateURL(Off, Limit) {
-    return Url = BASE_URL + "?offset=" + Off + "&limit=" + Limit;
-}
+//Content / Rendering
 
-function generateContent() {
-    let temp = document.getElementById('content');
-    temp.innerHTML = "";
+function renderContent() {
+    let Refdocument = document.getElementById('content');
+    Refdocument.innerHTML = "";
+    let temp = "";
     for (i in myPokemons) {
-    temp.innerHTML += templatePokeCard(i)
+        temp += templatePokeCard(i)
     }
-    localStorageSafe();
-    loadPageControl();
+    Refdocument.innerHTML = temp;
 }
 
-// Page Control
+function PokemonView(i) {
+    let dialogRef = openDialog();
+    dialogRef.innerHTML = templatePokemonDetailCard(i);
+}
+
+
+
+function loadPageControl() {
+    let control = document.getElementById("Page-control");
+    control.innerHTML = templatePageControl(Page, MaxPage);
+}
+
+// Navigation
 
 function getNextPageForward() {
     if (Page !== MaxPage) {
@@ -156,20 +163,34 @@ async function pageChange (signChange){
     content.innerHTML = "";
     Page += 1 * signChange;
     offset = offset + DataLimit * signChange;
-
     startLoadingScreen();
-    await loadPagePokemonData();
-    generateContent();
+    await loadPagePokemonData(SearchList);
+    generateContent()
+}
+
+    // Search function
+
+async function search() {
+    CurrentSearchList = [];
+    let RefInput = document.getElementById('search-input').value.toLowerCase();
+    if (RefInput !== "") {
+        CurrentSearchList = SearchList.filter(x => x.name.toLowerCase().includes(RefInput));
+        startLoadingScreen();
+        await loadPagePokemonData(CurrentSearchList);
+        MaxPage = Math.ceil(CurrentSearchList.length / DataLimit);
+        Page = 1;
+        generateContent();
+    }
+}
+
+// helpers
+
+function generateContent() {
+    renderContent();
+    loadPageControl();
     closeLoadingScreen();
     localStorageSafe();
 }
-
-function loadPageControl() {
-    let control = document.getElementById("Page-control");
-    control.innerHTML = templatePageControl(Page, MaxPage);
-}
-
-// get functions
 
 function getStringFirstLetterUp(string) {
     return string.substring(0, 1).toUpperCase() + string.substring(1);
@@ -203,38 +224,42 @@ function generateTyps(i) {
     return temp;
 }
 
-    // Dialog
+// Dialog
 
-    function startLoadingScreen() {
-        let content = document.getElementById('content');
-        let Pagecontrol = document.getElementById('Page-control');
-        content.classList.add('d-none');
-        Pagecontrol.classList.add('d-none');
-        let dialogRef = openDialog();
-        dialogRef.innerHTML = loadingScreen();
-    }
+function startLoadingScreen() {
+    let content = document.getElementById('content');
+    let Pagecontrol = document.getElementById('Page-control');
+    content.classList.add('d-none');
+    Pagecontrol.classList.add('d-none');
+    let dialogRef = openDialog();
+    dialogRef.innerHTML = loadingScreen();
+}
 
-    function closeLoadingScreen() {
-        let content = document.getElementById('content');
-        let Pagecontrol = document.getElementById('Page-control');
-        content.classList.remove('d-none');
-        Pagecontrol.classList.remove('d-none');
-        closeDialog();    
-    }
+function closeLoadingScreen() {
+    let content = document.getElementById('content');
+    let Pagecontrol = document.getElementById('Page-control');
+    content.classList.remove('d-none');
+    Pagecontrol.classList.remove('d-none');
+    closeDialog();    
+}
 
-    function openDialog() { 
-        let dialogRef = document.getElementById('dialog');
-        dialogRef.showModal();
-        dialogRef.classList.add('open');
-        document.body.classList.add('no-scroll');
-        return dialogRef;
-    }
+function openDialog() { 
+    let dialogRef = document.getElementById('dialog');
+    dialogRef.showModal();
+    dialogRef.classList.add('open');
+    document.body.classList.add('no-scroll');
+    return dialogRef;
+}
+
+function closeDialog() { 
+    const dialogRef = document.getElementById('dialog');
+    dialogRef.innerHTML = "";
+    dialogRef.close();
+    dialogRef.classList.remove('open');
+    document.body.classList.remove('no-scroll');
+}
 
 
-    function closeDialog() { 
-        const dialogRef = document.getElementById('dialog');
-        dialogRef.innerHTML = "";
-        dialogRef.close();
-        dialogRef.classList.remove('open');
-        document.body.classList.remove('no-scroll');
-    }
+
+
+    

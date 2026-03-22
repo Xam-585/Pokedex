@@ -15,10 +15,10 @@
 </head>
 <body onload="loadData()">
     <header>
-        <nav>
-            <input type="text" placeholder="Search youre Pokemon...">
-            <button class="btn_purple" type="submit">Search</button>
-        </nav>
+            <div class="search-bar">
+                <input type="text" placeholder="Search youre Pokemon..." id="search-input">
+                <button type="button" onclick="search()">Search</button>
+            </div>
     </header>
     <main>
         <dialog id="dialog"></dialog>

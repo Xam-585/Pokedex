@@ -60,3 +60,32 @@ a {
 a :hover{
     color: red;
 }
+
+.search-bar input {
+    padding: 10px 16px;
+    border-top-left-radius: 999px;
+    border-bottom-left-radius: 999px;
+    border: none;
+    width: 250px;
+    outline: none;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+.search-bar button {
+    padding: 10px 16px;
+    border-top-right-radius: 999px;
+    border-bottom-right-radius: 999px;
+    border-style:solid !important;
+    border: 4px;
+    border-color: blue;
+    cursor: pointer;
+    background: white;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    transition: 0.15s;
+}
+
+.search-bar button:hover {
+    transform: scale(1.05);
+    background: rgb(28, 201, 192);
+}
+
