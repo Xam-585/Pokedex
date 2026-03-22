@@ -1,12 +1,13 @@
 const BASE_URL = "https://pokeapi.co/api/v2/pokemon/";
 let Url = "";
 let offset = 0;
-const DataLimit = 28;
+const DataLimit = 24;
 let MaxNumberPokemon = 0;
 let Page = 1;
 let MaxPage = 0;
 let myPokemons = [];
 let SearchList = [];
+let activeList = [];
 let CurrentSearchList = [];
 
 // load
@@ -26,7 +27,7 @@ async function loadAPI() {
         pushInSearch(UserKeysArray[i], SearchList)
     }
     await loadPagePokemonData(SearchList);
-    generateContent();
+    generateContent(true);
 }
 
 async function loadDataApi(path) {
@@ -34,11 +35,11 @@ async function loadDataApi(path) {
     return await response.json();
 }
 
-async function loadPagePokemonData(list) {
+async function loadPagePokemonData(activeList) {
     myPokemons = [];
     let promises = [];
-    for (let i = offset; i < offset + DataLimit && i < list.length; i++) {
-        promises.push(loadDataApi(list[i].url));
+    for (let i = offset; i < offset + DataLimit && i < activeList.length; i++) {
+        promises.push(loadDataApi(activeList[i].url));
     }
     let result = await Promise.all(promises);
     console.log(result);
@@ -93,6 +94,7 @@ function checkLocalSorage() {
         startLoadingScreen();
         loadAPI();
     }
+    
 }
 
 function getLocalData(localMaxNumberPokemon, localpokemon, localPage, localMaxPage, localsearchList) {
@@ -101,7 +103,8 @@ function getLocalData(localMaxNumberPokemon, localpokemon, localPage, localMaxPa
     Page = localPage;
     MaxPage = localMaxPage;
     SearchList = localsearchList;
-    renderContent();
+    activeList = SearchList;
+    generateContent(true);
 }
 
 function localStorageSafe() {
@@ -158,14 +161,23 @@ function getNextPageBackward() {
     }
 }
 
-async function pageChange (signChange){
+function checkActiveList() {
+    if (activeList.length > 0) {
+        return activeList;
+    }
+    else {
+        return SearchList;
+    }
+}
+
+async function pageChange(signChange, activeList){
     let content = document.getElementById('content');
     content.innerHTML = "";
     Page += 1 * signChange;
     offset = offset + DataLimit * signChange;
     startLoadingScreen();
-    await loadPagePokemonData(SearchList);
-    generateContent()
+    await loadPagePokemonData(checkActiveList());
+    generateContent(false)
 }
 
     // Search function
@@ -175,21 +187,24 @@ async function search() {
     let RefInput = document.getElementById('search-input').value.toLowerCase();
     if (RefInput !== "") {
         CurrentSearchList = SearchList.filter(x => x.name.toLowerCase().includes(RefInput));
+        activeList = CurrentSearchList;
         startLoadingScreen();
-        await loadPagePokemonData(CurrentSearchList);
-        MaxPage = Math.ceil(CurrentSearchList.length / DataLimit);
+        await loadPagePokemonData(activeList);
+        MaxPage = Math.ceil(activeList.length / DataLimit);
         Page = 1;
-        generateContent();
+        generateContent(false);
     }
 }
 
 // helpers
 
-function generateContent() {
+function generateContent(safe) {
     renderContent();
     loadPageControl();
     closeLoadingScreen();
-    localStorageSafe();
+    if (safe === true) {
+        localStorageSafe();
+    }
 }
 
 function getStringFirstLetterUp(string) {

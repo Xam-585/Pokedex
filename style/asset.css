@@ -89,3 +89,7 @@ a :hover{
     background: rgb(28, 201, 192);
 }
 
+.pokemonPic img {
+    height: 96px;
+    width: 96px;
+}
