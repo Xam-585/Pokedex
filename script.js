@@ -178,7 +178,7 @@ async function search() {
     }
 }
 
-function noMatches() {
+function rendernoMatches() {
     let contentRef = getSectionContenId();
     let pageRef = getSectionPageControlId();
     contentRef.innerHTML = noContentTemplate();
@@ -191,7 +191,7 @@ function updateActiveList(RefInput) {
         CurrentSearchList = SearchList.filter(x => x.name.toLowerCase().includes(RefInput));
         activeList = CurrentSearchList;
         if (CurrentSearchList.length === 0) {
-            noMatches();
+            rendernoMatches();
             return false;
         }
     }
