@@ -151,52 +151,61 @@ function loadPageControl() {
 
 function getNextPageForward() {
     if (Page !== MaxPage) {
-        pageChange (1);
+        pageChange (1,);
     }
 }
 
 function getNextPageBackward() {
     if (Page > 1) {
-       pageChange (-1); 
+       pageChange (-1,); 
     }
 }
 
-function checkActiveList() {
-    if (activeList.length > 0) {
-        return activeList;
-    }
-    else {
-        return SearchList;
-    }
-}
-
-async function pageChange(signChange, activeList){
+async function pageChange(signChange){
     let content = document.getElementById('content');
     content.innerHTML = "";
     Page += 1 * signChange;
     offset = offset + DataLimit * signChange;
     startLoadingScreen();
-    await loadPagePokemonData(checkActiveList());
+    await loadPagePokemonData(activeList);
     generateContent(false)
 }
 
     // Search function
 
 async function search() {
-    CurrentSearchList = [];
-    let RefInput = document.getElementById('search-input').value.toLowerCase();
-    if (RefInput !== "") {
-        CurrentSearchList = SearchList.filter(x => x.name.toLowerCase().includes(RefInput));
-        activeList = CurrentSearchList;
-        startLoadingScreen();
-        await loadPagePokemonData(activeList);
-        MaxPage = Math.ceil(activeList.length / DataLimit);
-        Page = 1;
-        generateContent(false);
+    let RefInput = document.getElementById('search-input').value.trim().toLowerCase();
+    if (isDefaultState(RefInput)) {
+        return;
     }
+    resetPagination();
+    updateActiveList(RefInput);
+    startLoadingScreen();
+    getMaxPage(activeList.length);
+    await loadPagePokemonData(activeList);          
+    generateContent(false);        
 }
 
 // helpers
+
+function updateActiveList(RefInput) {
+    if (RefInput !== "") {
+        CurrentSearchList = SearchList.filter(x => x.name.toLowerCase().includes(RefInput));
+        activeList = CurrentSearchList;
+    }
+    else {
+        activeList = SearchList; 
+    } 
+}
+
+function resetPagination() {
+    Page = 1;  
+    offset = 0;
+}
+
+function isDefaultState(Refinput) {
+    return Refinput === "" && activeList === SearchList;
+}
 
 function generateContent(safe) {
     renderContent();
