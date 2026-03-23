@@ -99,3 +99,9 @@ function templateStats(stats) {
     }
     return temp;
 }
+
+function noContentTemplate() {
+    return`
+            <div><h1>No Results</h1></div>
+    `
+}
