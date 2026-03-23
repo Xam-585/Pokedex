@@ -178,13 +178,20 @@ async function search() {
     }
 }
 
+function noMatches() {
+    let contentRef = getSectionContenId();
+    let pageRef = getSectionPageControlId();
+    contentRef.innerHTML = noContentTemplate();
+    pageRef.innerHTML = "";
+}
+
 // helpers
 function updateActiveList(RefInput) {
     if (RefInput !== "") {
         CurrentSearchList = SearchList.filter(x => x.name.toLowerCase().includes(RefInput));
         activeList = CurrentSearchList;
         if (CurrentSearchList.length === 0) {
-            noMatchesDialog();
+            noMatches();
             return false;
         }
     }
@@ -258,11 +265,7 @@ function getDialogId() {
 
 // Dialog
 
-function noMatchesDialog() {
-    dNoneAddClass();
-    let dialogRef = openDialog();
-    dialogRef.innerHTML = noContentTemplate();
-}
+
 
 function startLoadingScreen() {
     dNoneAddClass();
