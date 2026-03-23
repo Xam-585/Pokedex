@@ -16,7 +16,6 @@ function loadData() {
 }
 
 //API
-
 async function loadAPI() {
     generateURL(offset, 2000);
     let userResponse = await loadDataApi(Url);
@@ -53,7 +52,6 @@ function generateURL(Off, Limit) {
 }
 
 //API Data 
-
 function pushInSearch(para, object) {
     object.push({
         name: para.name,
@@ -80,7 +78,6 @@ function pushInMyPokemons(para) {
 }
 
 // localStorage
-
 function checkLocalSorage() {
     let localMaxNumberPokemon = getFromLocalStorage("MaxNumberPokemon");
     let localpokemon = getFromLocalStorage("myPokemons");
@@ -94,7 +91,6 @@ function checkLocalSorage() {
         startLoadingScreen();
         loadAPI();
     }
-    
 }
 
 function getLocalData(localMaxNumberPokemon, localpokemon, localPage, localMaxPage, localsearchList) {
@@ -124,7 +120,6 @@ function getFromLocalStorage(key) {
 }
 
 //Content / Rendering
-
 function renderContent() {
     let Refdocument = document.getElementById('content');
     Refdocument.innerHTML = "";
@@ -140,15 +135,12 @@ function PokemonView(i) {
     dialogRef.innerHTML = templatePokemonDetailCard(i);
 }
 
-
-
 function loadPageControl() {
     let control = document.getElementById("Page-control");
     control.innerHTML = templatePageControl(Page, MaxPage);
 }
 
 // Navigation
-
 function getNextPageForward() {
     if (Page !== MaxPage) {
         pageChange (1,);
@@ -172,30 +164,34 @@ async function pageChange(signChange){
 }
 
     // Search function
-
 async function search() {
     let RefInput = document.getElementById('search-input').value.trim().toLowerCase();
     if (isDefaultState(RefInput)) {
         return;
     }
     resetPagination();
-    updateActiveList(RefInput);
-    startLoadingScreen();
-    getMaxPage(activeList.length);
-    await loadPagePokemonData(activeList);          
-    generateContent(false);        
+    if(updateActiveList(RefInput)) {
+        startLoadingScreen();
+        getMaxPage(activeList.length);
+        await loadPagePokemonData(activeList);          
+        generateContent(false); 
+    }
 }
 
 // helpers
-
 function updateActiveList(RefInput) {
     if (RefInput !== "") {
         CurrentSearchList = SearchList.filter(x => x.name.toLowerCase().includes(RefInput));
         activeList = CurrentSearchList;
+        if (CurrentSearchList.length === 0) {
+            noMatchesDialog();
+            return false;
+        }
     }
     else {
-        activeList = SearchList; 
+        activeList = SearchList;
     } 
+    return true;
 }
 
 function resetPagination() {
@@ -248,27 +244,39 @@ function generateTyps(i) {
     return temp;
 }
 
+function getSectionContenId() {
+    return document.getElementById('content');
+}
+
+function getSectionPageControlId() {
+    return document.getElementById('Page-control');
+}
+
+function getDialogId() {
+    return document.getElementById('dialog');
+}
+
 // Dialog
 
+function noMatchesDialog() {
+    dNoneAddClass();
+    let dialogRef = openDialog();
+    dialogRef.innerHTML = noContentTemplate();
+}
+
 function startLoadingScreen() {
-    let content = document.getElementById('content');
-    let Pagecontrol = document.getElementById('Page-control');
-    content.classList.add('d-none');
-    Pagecontrol.classList.add('d-none');
+    dNoneAddClass();
     let dialogRef = openDialog();
     dialogRef.innerHTML = loadingScreen();
 }
 
 function closeLoadingScreen() {
-    let content = document.getElementById('content');
-    let Pagecontrol = document.getElementById('Page-control');
-    content.classList.remove('d-none');
-    Pagecontrol.classList.remove('d-none');
+    dNoneRemoveClass();
     closeDialog();    
 }
 
 function openDialog() { 
-    let dialogRef = document.getElementById('dialog');
+    let dialogRef = getDialogId();
     dialogRef.showModal();
     dialogRef.classList.add('open');
     document.body.classList.add('no-scroll');
@@ -276,14 +284,24 @@ function openDialog() {
 }
 
 function closeDialog() { 
-    const dialogRef = document.getElementById('dialog');
+    const dialogRef = getDialogId();
     dialogRef.innerHTML = "";
     dialogRef.close();
     dialogRef.classList.remove('open');
     document.body.classList.remove('no-scroll');
 }
 
+function dNoneAddClass() {
+    let content = getSectionContenId();
+    let Pagecontrol = getSectionPageControlId();
+    content.classList.add('d-none');
+    Pagecontrol.classList.add('d-none');
+}
 
+function dNoneRemoveClass() {
+    let content = getSectionContenId();
+    let Pagecontrol = getSectionPageControlId();
+    content.classList.remove('d-none');
+    Pagecontrol.classList.remove('d-none');
+}
 
-
-    
