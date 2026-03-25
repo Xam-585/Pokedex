@@ -17,8 +17,7 @@ header {
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: blue;
-    opacity: 0.4;
+    background-color: #9c9cf2;
 }
 
 body {
@@ -31,8 +30,7 @@ footer {
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: blue;
-    opacity: 0.4;
+    background-color: #9c9cf2;
 }
 
 section {
@@ -81,7 +79,9 @@ section {
     filter: brightness(130%);
     border-radius: 4px;
     font-size: 20px;
-    padding: 4px;
+    padding: 4px 10px;
+    font-weight: 600;
+    border-radius: 10px;
     text-align: center;
     color: rgb(0, 0, 0);
 }
@@ -300,4 +300,10 @@ dialog {
     justify-content: center;
     align-items: center;
     margin-top: 20px;
+
+}
+
+#search-input {
+    font-weight: 700;
+    font-size: 20px;
 }

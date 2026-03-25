@@ -77,7 +77,9 @@ a :hover{
     border-bottom-right-radius: 999px;
     border-style:solid !important;
     border: 4px;
-    border-color: blue;
+    font-size: 20px;
+    font-weight: 700;
+    border-color: #9c9cf2;
     cursor: pointer;
     background: white;
     box-shadow: 0 4px 10px rgba(0,0,0,0.1);
