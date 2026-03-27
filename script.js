@@ -41,7 +41,6 @@ async function loadPagePokemonData(activeList) {
         promises.push(loadDataApi(activeList[i].url));
     }
     let result = await Promise.all(promises);
-    console.log(result);
     for (let i = 0; i < result.length; i++) {
         pushInMyPokemons(result[i]);
     }
