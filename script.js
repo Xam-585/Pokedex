@@ -271,7 +271,9 @@ function getDialogId() {
 
 // Dialog
 
-
+function PreventEventBubbling(event) {
+    event.stopPropagation();
+}
 
 function startLoadingScreen() {
     dNoneAddClass();

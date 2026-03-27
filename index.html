@@ -21,8 +21,7 @@
             </div>
     </header>
     <main>
-        <dialog id="dialog"></dialog>
-        
+        <dialog id="dialog" aria-label="Popup" onclick="closeDialog(); PreventEventBubbling(event)"></dialog>
         <section id="content" class="content">
             <div class="title "><h1>Pokedex</h1></div>
         </section>

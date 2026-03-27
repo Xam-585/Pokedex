@@ -43,7 +43,7 @@ function loadingScreen() {
 
 function templatePokemonDetailCard(i) {
     return `
-        <div class="pokemon-detail-card ${myPokemons[i].types[0].type.name}">
+        <div class="pokemon-detail-card ${myPokemons[i].types[0].type.name}" onclick="PreventEventBubbling(event)">
             <div class="detail-header">
                 <span class="detail-number">#${myPokemons[i].id}</span>
                 <h2 class="detail-name">${getStringFirstLetterUp(myPokemons[i].name)}</h2>
