@@ -130,9 +130,9 @@ function renderContent() {
     Refdocument.innerHTML = temp;
 }
 
-function PokemonView(i) {
+function PokemonView(id, i) {
     let dialogRef = openDialog();
-    dialogRef.innerHTML = templatePokemonDetailCard(i);
+    dialogRef.innerHTML = templatePokemonDetailCard(id);
 }
 
 function loadPageControl() {
@@ -141,6 +141,13 @@ function loadPageControl() {
 }
 
 // Navigation
+function getNextPokemonCard(i) {
+    if (myPokemons[i] !== undefined) {
+        PokemonView(i);
+    }
+}
+
+
 function getNextPageForward() {
     if (Page !== MaxPage) {
         pageChange (1,);

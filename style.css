@@ -246,6 +246,7 @@ dialog {
     justify-content: center;
     gap: 60px;
     flex-wrap: wrap;
+    min-width: 300px;
 }
 
 .detail-info-grid {
@@ -258,12 +259,7 @@ dialog {
     background: rgba(255, 255, 255, 0.18);
     border-radius: 16px;
     padding: 16px;
-}
-
-.detail-info-box, .detail-stats {
-    background: rgba(255, 255, 255, 0.18);
-    border-radius: 16px;
-    padding: 16px;
+    min-height: 200px;
 }
 
 .stat-row {
@@ -306,4 +302,23 @@ dialog {
 #search-input {
     font-weight: 700;
     font-size: 20px;
+}
+
+.Card-container {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.page-button-card {
+    width: 40px;
+    height: 40px;
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 18px;
+    font-weight: bold;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+    transition: transform 0.15s ease, background-color 0.15s ease;
+    filter: brightness(130%);
 }
