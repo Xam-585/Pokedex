@@ -49,7 +49,6 @@ function templatePokemonDetailCard(i) {
                 <h2 class="detail-name">${getStringFirstLetterUp(myPokemons[i].name)}</h2>
                 <button class="detail-close" onclick="closeDialog()">✕</button>
             </div>
-
             <div class="detail-image-box">
                 <img src="${myPokemons[i].sprites.front_default}" alt="${myPokemons[i].name}">
             </div>

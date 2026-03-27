@@ -5,14 +5,36 @@ const DataLimit = 24;
 let MaxNumberPokemon = 0;
 let Page = 1;
 let MaxPage = 0;
+let OverlayNr = 0;
 let myPokemons = [];
 let SearchList = [];
 let activeList = [];
 let CurrentSearchList = [];
 
+// listener
+function dialogControl() {
+    document.addEventListener("keydown", function eventListening(evt) {
+        if (document.getElementById('dialog').classList.contains('open')) {
+            if (evt.code == 'Escape') {
+                closeDialog();
+            }
+            if (evt.code == 'ArrowRight') {
+                getNextPokemonCard(OverlayNr + 1);
+            }
+            if (evt.code == 'ArrowLeft') {
+                getNextPokemonCard(OverlayNr - 1);
+            }
+        }
+        else {
+            return
+        }
+    });
+}
+
 // load
 function loadData() {
     checkLocalSorage();
+    dialogControl();
 }
 
 //API
@@ -129,7 +151,8 @@ function renderContent() {
     Refdocument.innerHTML = temp;
 }
 
-function PokemonView(id, i) {
+function PokemonView(id) {
+    OverlayNr = id;
     let dialogRef = openDialog();
     dialogRef.innerHTML = templatePokemonDetailCard(id);
 }
