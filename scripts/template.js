@@ -7,7 +7,7 @@ function templatePokeCard(i){
                     <div class="Poke-Name">${getStringFirstLetterUp(myPokemons[i].name)}</div>
                     <div># ${myPokemons[i].id}</div>
                 </div>
-                <button class="pokemonPic ${myPokemons[i].types[0].type.name}" onclick="PokemonView(${i})">
+                <button class="pokemonPic ${myPokemons[i].types[0].type.name}" onclick="PokemonView(${i})" id="Pokemon${i}">
                     <img src="${myPokemons[i].sprites.front_default}">
                 </button>
                 <div class="type-container">${generateTyps(i)}</div>

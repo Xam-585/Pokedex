@@ -216,7 +216,7 @@ function rendernoMatches() {
 
 // helpers
 function updateActiveList(RefInput) {
-    if (RefInput !== "") {
+    if (RefInput.length > 2) {
         CurrentSearchList = SearchList.filter(x => x.name.toLowerCase().includes(RefInput));
         activeList = CurrentSearchList;
         if (CurrentSearchList.length === 0) {
@@ -292,6 +292,14 @@ function getDialogId() {
     return document.getElementById('dialog');
 }
 
+function SetFocus() {
+    const elementRef = document.getElementById("Pokemon" + OverlayNr);
+    if (elementRef !== null) {
+       elementRef.focus(); 
+    }
+    return;
+}
+
 // Dialog
 
 function PreventEventBubbling(event) {
@@ -317,12 +325,13 @@ function openDialog() {
     return dialogRef;
 }
 
-function closeDialog() { 
+function closeDialog(i) { 
     const dialogRef = getDialogId();
     dialogRef.innerHTML = "";
     dialogRef.close();
     dialogRef.classList.remove('open');
     document.body.classList.remove('no-scroll');
+    SetFocus();
 }
 
 function dNoneAddClass() {

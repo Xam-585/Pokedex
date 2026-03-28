@@ -15,10 +15,10 @@
 </head>
 <body onload="loadData()">
     <header>
-            <div class="search-bar">
-                <input type="text" placeholder="Search youre Pokemon..." id="search-input">
-                <button type="button" onclick="search()">Search</button>
-            </div>
+            <form class="search-bar" onsubmit="search(); return false">
+                <input type="text" placeholder="Search youre Pokemon..." id="search-input" minlength="3" name="search-input">
+                <button type="submit" value="submit">Search</button>
+            </form>
     </header>
     <main>
         <dialog id="dialog" aria-label="Popup" onclick="closeDialog(); PreventEventBubbling(event)"></dialog>
