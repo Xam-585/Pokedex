@@ -121,14 +121,13 @@ section {
     backdrop-filter: blur(4px);
 }
 
-
-
 dialog {
     background-color: transparent;
     border: none;
     position: fixed;
-    height: 100%;
-    width: 100%;
+    inset: 0; 
+    width: 100vw;
+    height: 100vh;
 }
 
 .open {
@@ -136,6 +135,8 @@ dialog {
     justify-content: center;
     align-items: center;   
     z-index: 1;
+    min-width: 100%;
+    min-height: 100%;
 }
 
 .load{
@@ -332,11 +333,17 @@ dialog {
     width: 250px;
     }
  }
+
 @media (max-width: 540px) {
+    .detail-stats {
+       overflow-y: auto; 
+    }
     .pokemon-detail-card {
         width: 100%;
         min-width: unset;
         height: 100%;
+        overflow-y: auto;
+        border-radius: 0px;
     }
     .detail-types {
         gap: 24px;
@@ -345,6 +352,7 @@ dialog {
         flex-direction: column-reverse;
         align-items: flex-end;
         justify-content: center;
+        padding-top: 16px;
     }
     .detail-name {
     width: 100%;
@@ -352,10 +360,7 @@ dialog {
     dialog {
         margin: 0;
         padding: 0;
-    }
-    .open {
-        min-width: 100%;
-        min-height: 100%;
+        overflow: hidden;
     }
 }
 
@@ -377,7 +382,7 @@ dialog {
 
 @media (max-width: 400px) {
     .loading-screen{
-    height: 150px;
-    width: 150px;
+        height: 150px;
+        width: 150px;
     }
  }
