@@ -155,12 +155,13 @@ function PokemonView(id) {
     OverlayNr = id;
     let dialogRef = openDialog();
     dialogRef.innerHTML = templatePokemonDetailCard(id);
-    changeBtnDesign(id);
+    changeBtnDesignPokemonView(id);
 }
 
 function loadPageControl() {
     let control = document.getElementById("Page-control");
     control.innerHTML = templatePageControl(Page, MaxPage);
+    changeBtnDesignPage();
 }
 
 // Navigation
@@ -191,6 +192,7 @@ async function pageChange(signChange){
     startLoadingScreen();
     await loadPagePokemonData(activeList);
     generateContent(false)
+    changeBtnDesignPage();
 }
 
 // Search function
@@ -217,7 +219,7 @@ function rendernoMatches() {
 
 // helpers
 
-function changeBtnDesign(i) {
+function changeBtnDesignPokemonView(i) {
     let BtnId = "";
     if (i == 0) {
         BtnId = "btn-backward" + i;
@@ -229,7 +231,37 @@ function changeBtnDesign(i) {
     }
 }
 
+function changeBtnDesignPage() {
+    let BtnId = "";
+    if (Page == 1) {
+        BtnId = "Btn-Page-Backward";
+        changeClass(BtnId);
+    }
+    else {
+        removeChangeClass("Btn-Page-Backward");
+    }
+    if (MaxPage == Page) {
+        BtnId = "Btn-Page-Forward";
+        changeClass(BtnId);
+    }
+    else {
+        removeChangeClass("Btn-Page-Forward");
+    }
+}
+
+function removeChangeClass(elementId) {
+    if (document.getElementById(elementId) == null) {
+        return
+    }
+    let BtnRefId = document.getElementById(elementId);
+    BtnRefId.classList.remove('Btn-gray');
+}
+
+
 function changeClass(elementId) {
+    if (document.getElementById(elementId) == null) {
+        return
+    }
     let BtnRefId = document.getElementById(elementId);
     BtnRefId.classList.add('Btn-gray');
 }
@@ -252,6 +284,7 @@ function updateActiveList(RefInput) {
 function resetPagination() {
     Page = 1;  
     offset = 0;
+    changeClass("Btn-Page-Backward");
 }
 
 function isDefaultState(Refinput) {

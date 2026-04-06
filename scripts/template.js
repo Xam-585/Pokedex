@@ -25,9 +25,9 @@ function templateType(i, a, type) {
 function templatePageControl(page, maxPage) {
     return `
         <div class="page-control-box">
-            <button class="page_button" onclick="getNextPageBackward()">◀</button>
+            <button id="Btn-Page-Backward" class="page_button" onclick="getNextPageBackward()">◀</button>
             <span class="page">${page} / ${maxPage}</span>
-            <button class="page_button" onclick="getNextPageForward()">▶</button>
+            <button id="Btn-Page-Forward" class="page_button" onclick="getNextPageForward()">▶</button>
         </div>
     `;
 }
