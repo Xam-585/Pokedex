@@ -300,6 +300,30 @@ function SetFocus() {
     return;
 }
 
+function helperAbilities(abilities) {
+    let temp = "";
+    for (let ability of abilities) {
+        temp += `<p>${getStringFirstLetterUp(ability.ability.name)}</p>`;
+    }
+    return temp;
+}
+
+function helperStats(stats) {
+    let temp = "";
+    for (let stat of stats) {
+        temp += `
+            <div class="stat-row">
+                <span class="stat-name">${getStringFirstLetterUp(stat.stat.name)}</span>
+                <span class="stat-value">${stat.base_stat}</span>
+                <div class="stat-bar">
+                    <div class="stat-fill" style="width: ${Math.min(stat.base_stat, 150)}px;"></div>
+                </div>
+            </div>
+        `;
+    }
+    return temp;
+}
+
 // Dialog
 
 function PreventEventBubbling(event) {

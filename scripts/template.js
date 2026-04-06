@@ -65,41 +65,18 @@ function templatePokemonDetailCard(i) {
                 </div>
                 <div class="detail-info-box">
                     <h3>Abilities</h3>
-                    ${templateAbilities(myPokemons[i].abilities)}
+                    ${helperAbilities(myPokemons[i].abilities)}
                 </div>
             </div>
 
             <div class="detail-stats">
                 <h3>Stats</h3>
-                ${templateStats(myPokemons[i].stats)}
+                ${helperStats(myPokemons[i].stats)}
             </div>
         </div>
     `
 }
 
-function templateAbilities(abilities) {
-    let temp = "";
-    for (let ability of abilities) {
-        temp += `<p>${getStringFirstLetterUp(ability.ability.name)}</p>`;
-    }
-    return temp;
-}
-
-function templateStats(stats) {
-    let temp = "";
-    for (let stat of stats) {
-        temp += `
-            <div class="stat-row">
-                <span class="stat-name">${getStringFirstLetterUp(stat.stat.name)}</span>
-                <span class="stat-value">${stat.base_stat}</span>
-                <div class="stat-bar">
-                    <div class="stat-fill" style="width: ${Math.min(stat.base_stat, 150)}px;"></div>
-                </div>
-            </div>
-        `;
-    }
-    return temp;
-}
 
 function noContentTemplate() {
     return`
