@@ -155,6 +155,7 @@ function PokemonView(id) {
     OverlayNr = id;
     let dialogRef = openDialog();
     dialogRef.innerHTML = templatePokemonDetailCard(id);
+    changeBtnDesign(id);
 }
 
 function loadPageControl() {
@@ -192,7 +193,7 @@ async function pageChange(signChange){
     generateContent(false)
 }
 
-    // Search function
+// Search function
 async function search() {
     let RefInput = document.getElementById('search-input').value.trim().toLowerCase();
     if (isDefaultState(RefInput)) {
@@ -215,6 +216,24 @@ function rendernoMatches() {
 }
 
 // helpers
+
+function changeBtnDesign(i) {
+    let BtnId = "";
+    if (i == 0) {
+        BtnId = "btn-backward" + i;
+        changeClass(BtnId);
+    }
+    if (myPokemons.length -1 == i) {
+        BtnId = "btn-forward" + i;
+        changeClass(BtnId);
+    }
+}
+
+function changeClass(elementId) {
+    let BtnRefId = document.getElementById(elementId);
+    BtnRefId.classList.add('Btn-gray');
+}
+
 function updateActiveList(RefInput) {
     if (RefInput.length > 2) {
         CurrentSearchList = SearchList.filter(x => x.name.toLowerCase().includes(RefInput));

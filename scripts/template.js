@@ -53,9 +53,9 @@ function templatePokemonDetailCard(i) {
                 <img src="${myPokemons[i].sprites.front_default}" alt="${myPokemons[i].name}">
             </div>
             <div class="Card-container">
-                <button class="page-button-card ${myPokemons[i].types[0].type.name}" onclick="getNextPokemonCard(${i-1}, ${i})">◀</button>
+                <button id="btn-backward${i}" class="page-button-card ${myPokemons[i].types[0].type.name}" onclick="getNextPokemonCard(${i-1})">◀</button>
                 <div class="detail-types">${generateTyps(i)}</div>
-                <button class="page-button-card ${myPokemons[i].types[0].type.name}" onclick="getNextPokemonCard(${i+1}, ${i})">▶</button>
+                <button  id="btn-forward${i}" class="page-button-card ${myPokemons[i].types[0].type.name}" onclick="getNextPokemonCard(${i+1})">▶</button>
             </div>
             <div class="detail-info-grid">
                 <div class="detail-info-box">

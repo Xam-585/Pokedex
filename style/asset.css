@@ -52,6 +52,14 @@ button.pokemonPic :hover{
     color: red;
 }
 
+.Btn-gray {
+    background-color: gray !important;
+}
+
+.Btn-gray:hover {
+    cursor: default !important;
+}
+
 /* a-tags */
 
 a {
